@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Who are you ? (Client Or Admin)</h1>
+    <input type="text" name="user" id="user">
+    <button id="submit">Submit</button>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        var user = document.getElementById('user')
+        var submit = document.getElementById('submit')
+        submit.addEventListener('click', (e) => {
+            e.preventDefault();
+            var userId=0;
+            if(user.value.toLowerCase()=="admin"){
+                userId=1;
+            }
+            axios.post('http://localhost:80/authorizeUser', {
+                    user:userId
+                })
+                .then(function (response) {
+                    alert(response.data.message)
+                    if(response.data.result=="admin"){
+                        window.location.href="http://localhost:80/admin.html"
+                    }
+                    else{
+                        window.location.href="http://localhost:80/client.html"
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        })
+    </script>
+</body>
+
+</html>
